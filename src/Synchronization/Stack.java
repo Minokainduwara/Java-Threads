@@ -1,4 +1,4 @@
-package Race_condition;
+package Synchronization;
 
 public class Stack {
     private int[] array;
@@ -38,17 +38,20 @@ public class Stack {
     }
 
     public int pop() {
-        if (isEmpty()) return Integer.MIN_VALUE;
-        int obj = array[stackTop];
-        array[stackTop] = Integer.MIN_VALUE;
+        synchronized (lock) {
+            if (isEmpty()) return Integer.MIN_VALUE;
+            int obj = array[stackTop];
+            array[stackTop] = Integer.MIN_VALUE;
 
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            stackTop--;
+            return obj;
         }
 
-        stackTop--;
-        return obj;
     }
 }
